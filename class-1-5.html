@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Verse | Class 1–5</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      width: 100%;
+      background: #3b82f6;
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); }
+    .card h2 { margin: 12px 0; }
+    .btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn:hover { background: #2563eb; }
+    footer {
+      margin-top: auto;
+      padding: 12px;
+      background: #111827;
+      color: #e5e7eb;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Student-Verse | Class 1–5 Dashboard
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>📅 Time Table Maker</h2>
+      <p>Create your daily/weekly timetable easily.</p>
+      <button class="btn" onclick="alert('Time Table Maker Coming Soon!')">Open</button>
+    </div>
+
+    <div class="card">
+      <h2>🔢 Calculation Games</h2>
+      <p>Practice fun math problems and improve skills.</p>
+      <button class="btn" onclick="alert('Math Game Coming Soon!')">Play</button>
+    </div>
+
+    <div class="card">
+      <h2>✍️ Spelling Games</h2>
+      <p>Learn new words with fun spelling challenges.</p>
+      <button class="btn" onclick="alert('Spelling Game Coming Soon!')">Play</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Student-Verse | Made by Surya Pratap Singh
+  </footer>
+</body>
+</html>
