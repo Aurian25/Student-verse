@@ -5,18 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student-Verse</title>
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1e3a8a, #0f172a);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-color: #f9fafb;
+      --btn-gradient: linear-gradient(145deg, #2563eb, #1e40af);
+      --btn-hover: linear-gradient(145deg, #1d4ed8, #1e3a8a);
+    }
+
+    body.light {
+      --bg-gradient: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      --card-bg: rgba(255, 255, 255, 0.6);
+      --text-color: #111827;
+      --btn-gradient: linear-gradient(145deg, #3b82f6, #1d4ed8);
+      --btn-hover: linear-gradient(145deg, #2563eb, #1e40af);
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
-      color: #f9fafb;
+      background: var(--bg-gradient);
+      color: var(--text-color);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      transition: all 0.5s ease;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--card-bg);
       border-radius: 20px;
       padding: 40px;
       width: 90%;
@@ -24,21 +42,17 @@
       text-align: center;
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background 0.5s ease;
     }
-    .card:hover {
-      transform: scale(1.03);
-    }
+    .card:hover { transform: scale(1.03); }
+
     h1 {
       font-size: 32px;
       margin-bottom: 12px;
-      color: #fff;
       text-shadow: 0 3px 6px rgba(0,0,0,0.4);
     }
-    p {
-      margin-bottom: 25px;
-      color: #d1d5db;
-    }
+    p { margin-bottom: 25px; }
+
     .btn-group {
       display: flex;
       flex-wrap: wrap;
@@ -46,7 +60,7 @@
       justify-content: center;
     }
     .btn {
-      background: linear-gradient(145deg, #2563eb, #1e40af);
+      background: var(--btn-gradient);
       color: white;
       border: none;
       padding: 14px 24px;
@@ -57,19 +71,41 @@
       transition: all 0.25s ease-in-out;
     }
     .btn:hover {
-      background: linear-gradient(145deg, #1d4ed8, #1e3a8a);
+      background: var(--btn-hover);
       transform: translateY(-4px);
       box-shadow: 0 12px 20px rgba(0,0,0,0.45);
     }
+
     .tip {
       margin-top: 20px;
       font-size: 13px;
-      color: #9ca3af;
       font-style: italic;
+      color: #9ca3af;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--btn-gradient);
+      color: white;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--btn-hover);
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+
   <div class="card">
     <h1>🌌 Student-Verse</h1>
     <p>Select your class/standard to see available features.</p>
@@ -79,10 +115,34 @@
       <button class="btn" onclick="location.href='class-6-8.html'">Class 6–8</button>
       <button class="btn" onclick="location.href='class-9-10.html'">Class 9–10</button>
       <button class="btn" onclick="location.href='class-11-12.html'">Class 11–12</button>
-      <button class="btn" onclick="location.href='ugpg.html'">UG/PG</button>
+      <button class="btn" onclick="location.href='ug-pg.html'">UG/PG</button>
     </div>
 
     <p class="tip">💡 Tip: You can deep-link this choice later using routes like /dash/1-5</p>
   </div>
+
+  <script>
+    // Load saved theme from localStorage
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        document.body.classList.add("light");
+        document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+      }
+    };
+
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const btn = document.querySelector(".theme-toggle");
+
+      if (document.body.classList.contains("light")) {
+        btn.textContent = "☀️ Light Mode";
+        localStorage.setItem("theme", "light"); // save light mode
+      } else {
+        btn.textContent = "🌙 Dark Mode";
+        localStorage.setItem("theme", "dark"); // save dark mode
+      }
+    }
+  </script>
 </body>
 </html>
