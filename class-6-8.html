@@ -5,41 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student-Verse | Class 6–8</title>
   <style>
+    /* THEME VARIABLES */
     :root {
-  --bg-gradient: linear-gradient(135deg, #1e3a8a, #0f172a);
-  --card-bg: rgba(255, 255, 255, 0.08);
-  --text-color: #f9fafb;
-  --btn-gradient: linear-gradient(145deg, #2563eb, #1e40af);
-  --btn-hover: linear-gradient(145deg, #1d4ed8, #1e3a8a);
-}
+      --bg-gradient: linear-gradient(135deg, #1e3a8a, #0f172a);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-color: #f9fafb;
+      --btn-gradient: linear-gradient(145deg, #16a34a, #15803d);
+      --btn-hover: linear-gradient(145deg, #15803d, #166534);
+    }
 
-body.light {
-  --bg-gradient: linear-gradient(135deg, #f9fafb, #e5e7eb);
-  --card-bg: rgba(255, 255, 255, 0.6);
-  --text-color: #111827;
-  --btn-gradient: linear-gradient(145deg, #3b82f6, #1d4ed8);
-  --btn-hover: linear-gradient(145deg, #2563eb, #1e40af);
-}
+    body.light {
+      --bg-gradient: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      --card-bg: rgba(255, 255, 255, 0.6);
+      --text-color: #111827;
+      --btn-gradient: linear-gradient(145deg, #22c55e, #16a34a);
+      --btn-hover: linear-gradient(145deg, #16a34a, #15803d);
+    }
 
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: #f9fafb;
-      color: #111827;
+      background: var(--bg-gradient);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: all 0.4s ease;
     }
+
     header {
       width: 100%;
-      background: #16a34a; /* green shade for variety */
+      background: var(--btn-gradient);
       color: white;
       padding: 16px;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
+
     .container {
       max-width: 1000px;
       margin: 20px;
@@ -48,26 +53,31 @@ body.light {
       gap: 16px;
       width: 100%;
     }
+
     .card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
-      transition: transform 0.2s;
+      transition: transform 0.2s, background 0.3s;
+      backdrop-filter: blur(10px);
     }
     .card:hover { transform: scale(1.05); }
-    .card h2 { margin: 12px 0; }
+    .card h2 { margin: 12px 0; color: var(--text-color); }
+
     .btn {
-      background: #16a34a;
+      background: var(--btn-gradient);
       color: white;
       border: none;
       padding: 10px 16px;
       border-radius: 10px;
       cursor: pointer;
       font-size: 14px;
+      transition: all 0.25s ease-in-out;
     }
-    .btn:hover { background: #15803d; }
+    .btn:hover { background: var(--btn-hover); }
+
     footer {
       margin-top: auto;
       padding: 12px;
@@ -76,10 +86,27 @@ body.light {
       width: 100%;
       text-align: center;
     }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--btn-gradient);
+      color: white;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .theme-toggle:hover { background: var(--btn-hover); }
   </style>
 </head>
 <body>
   <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+
   <header>
     Student-Verse | Class 6–8 Dashboard
   </header>
@@ -125,30 +152,30 @@ body.light {
   <footer>
     © 2025 Student-Verse | Made by Surya Pratap Singh
   </footer>
+
   <script>
-  // Load saved theme when page loads
-  window.onload = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      document.body.classList.add("light");
-      document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+    // Load saved theme
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        document.body.classList.add("light");
+        document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+      }
+    };
+
+    // Toggle + save theme
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const btn = document.querySelector(".theme-toggle");
+
+      if (document.body.classList.contains("light")) {
+        btn.textContent = "☀️ Light Mode";
+        localStorage.setItem("theme", "light");
+      } else {
+        btn.textContent = "🌙 Dark Mode";
+        localStorage.setItem("theme", "dark");
+      }
     }
-  };
-
-  // Toggle + save theme
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-    const btn = document.querySelector("theme-toggle");
-
-    if (document.body.classList.contains("light")) {
-      btn.textContent = "☀️ Light Mode";
-      localStorage.setItem("theme", "light"); // saved globally
-    } else {
-      btn.textContent = "🌙 Dark Mode";
-      localStorage.setItem("theme", "dark"); // saved globally
-    }
-  }
-</script>
-
+  </script>
 </body>
 </html>
