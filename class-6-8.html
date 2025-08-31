@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student-Verse | Class 6–8</title>
   <style>
+    :root {
+  --bg-gradient: linear-gradient(135deg, #1e3a8a, #0f172a);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --text-color: #f9fafb;
+  --btn-gradient: linear-gradient(145deg, #2563eb, #1e40af);
+  --btn-hover: linear-gradient(145deg, #1d4ed8, #1e3a8a);
+}
+
+body.light {
+  --bg-gradient: linear-gradient(135deg, #f9fafb, #e5e7eb);
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --text-color: #111827;
+  --btn-gradient: linear-gradient(145deg, #3b82f6, #1d4ed8);
+  --btn-hover: linear-gradient(145deg, #2563eb, #1e40af);
+}
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -108,5 +124,30 @@
   <footer>
     © 2025 Student-Verse | Made by Surya Pratap Singh
   </footer>
+  <script>
+  // Load saved theme when page loads
+  window.onload = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light");
+      document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+    }
+  };
+
+  // Toggle + save theme
+  function toggleTheme() {
+    document.body.classList.toggle("light");
+    const btn = document.querySelector(".theme-toggle");
+
+    if (document.body.classList.contains("light")) {
+      btn.textContent = "☀️ Light Mode";
+      localStorage.setItem("theme", "light"); // saved globally
+    } else {
+      btn.textContent = "🌙 Dark Mode";
+      localStorage.setItem("theme", "dark"); // saved globally
+    }
+  }
+</script>
+
 </body>
 </html>
