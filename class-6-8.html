@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Verse | Class 6–8</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      width: 100%;
+      background: #16a34a; /* green shade for variety */
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); }
+    .card h2 { margin: 12px 0; }
+    .btn {
+      background: #16a34a;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn:hover { background: #15803d; }
+    footer {
+      margin-top: auto;
+      padding: 12px;
+      background: #111827;
+      color: #e5e7eb;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Student-Verse | Class 6–8 Dashboard
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>📅 Time Table Maker</h2>
+      <p>Plan your study schedule for better productivity.</p>
+      <button class="btn" onclick="alert('Time Table Maker Coming Soon!')">Open</button>
+    </div>
+
+    <div class="card">
+      <h2>📝 Notes Organiser</h2>
+      <p>Save, edit, and manage your subject notes easily.</p>
+      <button class="btn" onclick="alert('Notes Organiser Coming Soon!')">Open</button>
+    </div>
+
+    <div class="card">
+      <h2>🧠 Flashcards</h2>
+      <p>Quick revision with digital flashcards.</p>
+      <button class="btn" onclick="alert('Flashcards Coming Soon!')">Start</button>
+    </div>
+
+    <div class="card">
+      <h2>📂 PDF/Notes Sharing</h2>
+      <p>Share notes and PDFs within your class securely.</p>
+      <button class="btn" onclick="alert('PDF Sharing Coming Soon!')">Share</button>
+    </div>
+
+    <div class="card">
+      <h2>🎯 Goals Setter</h2>
+      <p>Set your daily, monthly, or yearly academic goals.</p>
+      <button class="btn" onclick="alert('Goals Setter Coming Soon!')">Start</button>
+    </div>
+
+    <div class="card">
+      <h2>🤖 Strategy Planner (AI)</h2>
+      <p>Get personalized study strategies powered by AI.</p>
+      <button class="btn" onclick="alert('Strategy Planner Coming Soon!')">Try</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Student-Verse | Made by Surya Pratap Singh
+  </footer>
+</body>
+</html>
