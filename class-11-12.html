@@ -5,25 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student-Verse | Class 11–12</title>
   <style>
+    /* THEME VARIABLES */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #7f1d1d, #450a0a);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-color: #f9fafb;
+      --btn-gradient: linear-gradient(145deg, #dc2626, #b91c1c);
+      --btn-hover: linear-gradient(145deg, #b91c1c, #7f1d1d);
+    }
+
+    body.light {
+      --bg-gradient: linear-gradient(135deg, #f9fafb, #e5e7eb);
+      --card-bg: rgba(255, 255, 255, 0.6);
+      --text-color: #111827;
+      --btn-gradient: linear-gradient(145deg, #ef4444, #dc2626);
+      --btn-hover: linear-gradient(145deg, #dc2626, #b91c1c);
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: #f9fafb;
-      color: #111827;
+      background: var(--bg-gradient);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      transition: all 0.4s ease;
     }
+
     header {
       width: 100%;
-      background: #dc2626; /* Red theme for senior students */
+      background: var(--btn-gradient);
       color: white;
       padding: 16px;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
+
     .container {
       max-width: 1100px;
       margin: 20px;
@@ -32,26 +53,31 @@
       gap: 16px;
       width: 100%;
     }
+
     .card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
-      transition: transform 0.2s;
+      transition: transform 0.2s, background 0.3s;
+      backdrop-filter: blur(10px);
     }
     .card:hover { transform: scale(1.05); }
-    .card h2 { margin: 12px 0; }
+    .card h2 { margin: 12px 0; color: var(--text-color); }
+
     .btn {
-      background: #dc2626;
+      background: var(--btn-gradient);
       color: white;
       border: none;
       padding: 10px 16px;
       border-radius: 10px;
       cursor: pointer;
       font-size: 14px;
+      transition: all 0.25s ease-in-out;
     }
-    .btn:hover { background: #b91c1c; }
+    .btn:hover { background: var(--btn-hover); }
+
     footer {
       margin-top: auto;
       padding: 12px;
@@ -60,9 +86,27 @@
       width: 100%;
       text-align: center;
     }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--btn-gradient);
+      color: white;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .theme-toggle:hover { background: var(--btn-hover); }
   </style>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+
   <header>
     Student-Verse | Class 11–12 Dashboard
   </header>
@@ -83,30 +127,30 @@
   <footer>
     © 2025 Student-Verse | Made by Surya Pratap Singh
   </footer>
+
   <script>
-  // Load saved theme when page loads
-  window.onload = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      document.body.classList.add("light");
-      document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+    // Load saved theme when page loads
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        document.body.classList.add("light");
+        document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+      }
+    };
+
+    // Toggle + save theme
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const btn = document.querySelector(".theme-toggle");
+
+      if (document.body.classList.contains("light")) {
+        btn.textContent = "☀️ Light Mode";
+        localStorage.setItem("theme", "light");
+      } else {
+        btn.textContent = "🌙 Dark Mode";
+        localStorage.setItem("theme", "dark");
+      }
     }
-  };
-
-  // Toggle + save theme
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-    const btn = document.querySelector(".theme-toggle");
-
-    if (document.body.classList.contains("light")) {
-      btn.textContent = "☀️ Light Mode";
-      localStorage.setItem("theme", "light"); // saved globally
-    } else {
-      btn.textContent = "🌙 Dark Mode";
-      localStorage.setItem("theme", "dark"); // saved globally
-    }
-  }
-</script>
-
+  </script>
 </body>
 </html>
