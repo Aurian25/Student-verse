@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Verse | UG/PG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      width: 100%;
+      background: #0d9488; /* Teal theme */
+      color: white;
+      padding: 16px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); }
+    .card h2 { margin: 12px 0; }
+    .btn {
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn:hover { background: #0f766e; }
+    footer {
+      margin-top: auto;
+      padding: 12px;
+      background: #111827;
+      color: #e5e7eb;
+      width: 100%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Student-Verse | UG/PG Dashboard
+  </header>
+
+  <div class="container">
+    <div class="card"><h2>📅 Time Table Maker</h2><p>Plan your study & daily schedule effectively.</p><button class="btn" onclick="alert('Coming Soon!')">Open</button></div>
+    <div class="card"><h2>📝 Notes Organiser</h2><p>Store & organise your notes digitally.</p><button class="btn" onclick="alert('Coming Soon!')">Open</button></div>
+    <div class="card"><h2>🧠 Flashcards</h2><p>Revise quickly with flashcards.</p><button class="btn" onclick="alert('Coming Soon!')">Start</button></div>
+    <div class="card"><h2>📂 PDF Sharing</h2><p>Upload and share study materials.</p><button class="btn" onclick="alert('Coming Soon!')">Share</button></div>
+    <div class="card"><h2>👥 Group Projects Manager</h2><p>Work together on projects efficiently.</p><button class="btn" onclick="alert('Coming Soon!')">Open</button></div>
+    <div class="card"><h2>💬 Live Chats</h2><p>Chat with classmates & mentors.</p><button class="btn" onclick="alert('Coming Soon!')">Chat</button></div>
+    <div class="card"><h2>🎯 Goals Setter</h2><p>Set career & study goals and track them.</p><button class="btn" onclick="alert('Coming Soon!')">Start</button></div>
+    <div class="card"><h2>📖 Learn From My Mistakes</h2><p>Read experiences & avoid common pitfalls.</p><button class="btn" onclick="alert('Coming Soon!')">Explore</button></div>
+    <div class="card"><h2>📚 Resource Library</h2><p>Find useful study & career resources.</p><button class="btn" onclick="alert('Coming Soon!')">Explore</button></div>
+    <div class="card"><h2>🤖 Strategy Planner (AI)</h2><p>AI-powered study & career guidance.</p><button class="btn" onclick="alert('Coming Soon!')">Try</button></div>
+    <div class="card"><h2>📑 Resume Builder</h2><p>Create a professional resume with templates.</p><button class="btn" onclick="alert('Coming Soon!')">Build</button></div>
+    <div class="card"><h2>🏠 Roommate Finder</h2><p>Find and connect with potential roommates.</p><button class="btn" onclick="alert('Coming Soon!')">Search</button></div>
+  </div>
+
+  <footer>
+    © 2025 Student-Verse | Made by Surya Pratap Singh
+  </footer>
+</body>
+</html>
