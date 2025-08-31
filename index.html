@@ -1,94 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student-Verse</title>
   <style>
-    body{font-family:system-ui,Arial,sans-serif;margin:0;display:grid;place-items:center;min-height:100dvh;background:#0f172a;color:#e2e8f0}
-    .card{max-width:860px;width:92%;background:#111827;padding:24px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-    h1{margin:0 0 8px}
-    .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-top:16px}
-    button{padding:12px 14px;border-radius:12px;border:0;cursor:pointer;background:#1f2937;color:#e5e7eb}
-    button:hover{filter:brightness(1.1)}
-    #features{margin-top:18px;background:#0b1220;border:1px solid #1f2937;border-radius:12px;padding:14px}
-    a{color:#93c5fd}
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: #fff;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+    p {
+      margin-bottom: 25px;
+      color: #d1d5db;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .btn {
+      background: linear-gradient(145deg, #2563eb, #1e40af);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: all 0.25s ease-in-out;
+    }
+    .btn:hover {
+      background: linear-gradient(145deg, #1d4ed8, #1e3a8a);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.45);
+    }
+    .tip {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Student-Verse</h1>
+    <h1>🌌 Student-Verse</h1>
     <p>Select your class/standard to see available features.</p>
-
-    <div class="grid">
-      <button onclick="location.href='class-1-5.html'">Class 1–5</button>
-      <button onclick="location.href='class-6-8.html'">Class 6–8</button>
-      <button onclick="location.href='class-9-10.html'">Class 9–10</button>
-      <button onclick="location.href='class-11-12.html'">Class 11–12</button>
-      <button onclick="location.href='ugpg.html'">UG/PG</button>
+    
+    <div class="btn-group">
+      <button class="btn" onclick="location.href='class-1-5.html'">Class 1–5</button>
+      <button class="btn" onclick="location.href='class-6-8.html'">Class 6–8</button>
+      <button class="btn" onclick="location.href='class-9-10.html'">Class 9–10</button>
+      <button class="btn" onclick="location.href='class-11-12.html'">Class 11–12</button>
+      <button class="btn" onclick="location.href='ug-pg.html'">UG/PG</button>
     </div>
 
-    <div id="features"></div>
+    <p class="tip">💡 Tip: You can deep-link this choice later using routes like /dash/1-5</p>
   </div>
-
-  <script>
-    const map = {
-      "1-5": [
-        "Time Table Maker",
-        "Calculation Games",
-        "Spelling Games"
-      ],
-      "6-8": [
-        "Time Table Maker",
-        "Notes Organiser",
-        "Flashcards",
-        "PDF/Notes Sharing",
-        "Goals Setter",
-        "Strategy Planner (AI)"
-      ],
-      "9-10": [
-        "Time Table Maker",
-        "Notes Organiser",
-        "Flashcards",
-        "PDF Sharing",
-        "Live Chats",
-        "Resource Library",
-        "Strategy Planner (AI)"
-      ],
-      "11-12": [
-        "Time Table Maker",
-        "Notes Organiser",
-        "Flashcards",
-        "Group Projects Manager",
-        "Live Chats",
-        "Learn From My Mistakes",
-        "Goals Setter",
-        "Resource Library",
-        "Strategy Planner (AI)"
-      ],
-      "UG-PG": [
-        "Notes & File Sharing",
-        "Group Projects Manager",
-        "Resume Builder",
-        "Find Friends (future)",
-        "Roommate Finder (future)",
-        "Learn From My Mistakes",
-        "Goals Setter",
-        "Strategy Planner (AI)"
-      ]
-    };
-
-    function selectStd(key){
-      const list = (map[key]||[]).map(x=>`<li>${x}</li>`).join("");
-      document.getElementById("features").innerHTML =
-        `<h3>Available Features for ${key}:</h3><ul>${list}</ul>` +
-        `<p><em>Tip:</em> You can deep-link this choice later using routes like <code>/dash/${key}</code>.</p>`;
-      localStorage.setItem("std", key);
-    }
-
-    // Auto-restore last choice
-    const prev = localStorage.getItem("std");
-    if (prev) selectStd(prev);
-  </script>
 </body>
 </html>
