@@ -83,5 +83,30 @@
   <footer>
     © 2025 Student-Verse | Made by Surya Pratap Singh
   </footer>
+  <script>
+  // Load saved theme when page loads
+  window.onload = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      document.body.classList.add("light");
+      document.querySelector(".theme-toggle").textContent = "☀️ Light Mode";
+    }
+  };
+
+  // Toggle + save theme
+  function toggleTheme() {
+    document.body.classList.toggle("light");
+    const btn = document.querySelector(".theme-toggle");
+
+    if (document.body.classList.contains("light")) {
+      btn.textContent = "☀️ Light Mode";
+      localStorage.setItem("theme", "light"); // saved globally
+    } else {
+      btn.textContent = "🌙 Dark Mode";
+      localStorage.setItem("theme", "dark"); // saved globally
+    }
+  }
+</script>
+
 </body>
 </html>
