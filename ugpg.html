@@ -35,15 +35,43 @@
     }
 
     header {
-      width: 100%;
-      background: var(--btn-gradient);
-      color: white;
-      padding: 16px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
+  width: 100%;
+  background: #16a34a;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between; /* spread title left, buttons right */
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px; /* space between buttons */
+}
+
+.theme-toggle, .btn-action {
+  background: white;
+  color: #16a34a;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.theme-toggle:hover, .btn-action:hover {
+  background: #e5e7eb;
+}
 
     .container {
       max-width: 1200px;
