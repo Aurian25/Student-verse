@@ -108,13 +108,15 @@
   <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
 
   <header>
-    Student-Verse | UG/PG Dashboard
-    <div style="position:fixed; top:16px; right:16px; display:flex; gap:8px; z-index:10;">
-    <button class="btn" onclick="SV.saveProfileWithEmail()">💾 Save Progress with Email</button>
-    <button class="btn" onclick="SV.restoreProfileWithEmail()">⤵️ Restore</button>
+  <div class="header-content">
+    <span>Student-Verse | UG-PG Dashboard</span>
+    <div class="header-buttons">
+      <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+      <button class="btn-action" onclick="saveProgress()">💾 Save Progress with Email</button>
+      <button class="btn-action" onclick="restoreProgress()">🔄 Restore</button>
     </div>
-
-  </header>
+  </div>
+</header>
 
   <div class="container">
     <div class="card"><h2>📅 Time Table Maker</h2><p>Plan your study & daily schedule effectively.</p><button class="btn" onclick="alert('Coming Soon!')">Open</button></div>
