@@ -140,10 +140,10 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Detect which dashboard (class) this page is
 // For example: "class-6-8.html" → "Class 6–8"
 let standard = "Unknown";
-if (document.title.includes("Class 6–8")) standard = "Class 6–8";
-if (document.title.includes("Class 9–10")) standard = "Class 9–10";
-if (document.title.includes("Class 11–12")) standard = "Class 11–12";
-if (document.title.includes("UG/PG")) standard = "UG/PG";
+if (document.title.includes("class-6–8")) standard = "class-6–8";
+if (document.title.includes("class-9–10")) standard = "class-9–10";
+if (document.title.includes("class-11–12")) standard = "class-11–12";
+if (document.title.includes("ugpg")) standard = "ugpg";
 
 // Save Progress
 async function saveProgress() {
