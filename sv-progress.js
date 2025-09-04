@@ -137,8 +137,6 @@ const supabaseUrl = "https://etsmyrbvariwkedryzey.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0c215cmJ2YXJpd2tlZHJ5emV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5MTAwNDcsImV4cCI6MjA3MjQ4NjA0N30.-Sylp9U5ZQGD3JkbpF6aFCgFClT9JhSv20WTd0x8kOk";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Detect which dashboard (class) this page is
-// For example: "class-6-8.html" → "Class 6–8"
 let standard = "Unknown";
 if (document.title.includes("class-6–8")) standard = "class-6–8";
 if (document.title.includes("class-9–10")) standard = "class-9–10";
