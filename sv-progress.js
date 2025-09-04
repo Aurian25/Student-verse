@@ -130,4 +130,70 @@
   window.SV = { saveProfileWithEmail, restoreProfileWithEmail, exportProfile, importProfile };
   document.addEventListener("DOMContentLoaded", autosaveFields);
 })();
+
+// Initialize Supabase
+const { createClient } = supabase;
+const supabaseUrl = "YOUR_PROJECT_URL";
+const supabaseKey = "YOUR_ANON_KEY";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Detect which dashboard (class) this page is
+// For example: "class-6-8.html" → "Class 6–8"
+let standard = "Unknown";
+if (document.title.includes("Class 6–8")) standard = "Class 6–8";
+if (document.title.includes("Class 9–10")) standard = "Class 9–10";
+if (document.title.includes("Class 11–12")) standard = "Class 11–12";
+if (document.title.includes("UG/PG")) standard = "UG/PG";
+
+// Save Progress
+async function saveProgress() {
+  const email = prompt("Enter your email to save progress:");
+  if (!email) return;
+
+  // Example: save all localStorage data
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    data[key] = localStorage.getItem(key);
+  }
+
+  const { error } = await supabase.from("progress").upsert({
+    email: email,
+    standard: standard, // dynamic per page
+    data: JSON.stringify(data),
+    created_at: new Date()
+  });
+
+  if (error) {
+    alert("Error saving progress: " + error.message);
+  } else {
+    alert(`Progress saved successfully for ${standard}!`);
+  }
+}
+
+// Restore Progress
+async function restoreProgress() {
+  const email = prompt("Enter your email to restore progress:");
+  if (!email) return;
+
+  const { data, error } = await supabase
+    .from("progress")
+    .select("data")
+    .eq("email", email)
+    .eq("standard", standard) // restore for same class only
+    .single();
+
+  if (error || !data) {
+    alert("No saved progress found!");
+    return;
+  }
+
+  const savedData = JSON.parse(data.data);
+  for (let key in savedData) {
+    localStorage.setItem(key, savedData[key]);
+  }
+
+  alert(`Progress restored for ${standard}! Refresh the page to see your data.`);
+}
+
 </script>
