@@ -133,8 +133,8 @@
 
 // Initialize Supabase
 const { createClient } = supabase;
-const supabaseUrl = "YOUR_PROJECT_URL";
-const supabaseKey = "YOUR_ANON_KEY";
+const supabaseUrl = "https://etsmyrbvariwkedryzey.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0c215cmJ2YXJpd2tlZHJ5emV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5MTAwNDcsImV4cCI6MjA3MjQ4NjA0N30.-Sylp9U5ZQGD3JkbpF6aFCgFClT9JhSv20WTd0x8kOk";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Detect which dashboard (class) this page is
