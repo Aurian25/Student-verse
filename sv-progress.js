@@ -9,11 +9,8 @@
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   // 🏫 Detect which class dashboard we’re on
-  let standard = "Unknown";
-  if (document.title.includes("class-6–8")) standard = "class-6–8";
-  if (document.title.includes("class-9–10")) standard = "class-9–10";
-  if (document.title.includes("class-11–12")) standard = "class-11–12";
-  if (document.title.includes("ugpg")) standard = "ugpg";
+
+  const standard = window.CLASS_KEY || "unknown";
 
   // 📌 Save Progress to Supabase
   async function saveProgress() {
