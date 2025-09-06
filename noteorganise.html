@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Organizer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9fafb;
+      color: #111827;
+    }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .upload-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    input, select, button {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #2563eb; }
+    .notes-list {
+      margin-top: 20px;
+    }
+    .note-item {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .note-info { flex: 1; }
+    .note-actions button {
+      margin-left: 8px;
+      background: #ef4444;
+    }
+    .note-actions button:hover {
+      background: #b91c1c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📝 Notes Organizer</h1>
+
+  <div class="upload-box">
+    <input type="file" id="noteFile" accept=".pdf,.doc,.docx,.txt,.jpg,.png">
+    <input type="text" id="subject" placeholder="Subject">
+    <button onclick="uploadNote()">Upload</button>
+  </div>
+
+  <div class="notes-list" id="notesList"></div>
+
+<script>
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+// Upload note
+function uploadNote() {
+  const fileInput = document.getElementById("noteFile");
+  const subject = document.getElementById("subject").value.trim();
+
+  if (!fileInput.files.length || !subject) {
+    alert("⚠️ Please choose a file and enter subject.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const note = {
+    id: Date.now(),
+    name: file.name,
+    subject: subject,
+    url: URL.createObjectURL(file)
+  };
+
+  notes.push(note);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  renderNotes();
+
+  fileInput.value = "";
+  document.getElementById("subject").value = "";
+}
+
+// Render notes list
+function renderNotes() {
+  const notesList = document.getElementById("notesList");
+  notesList.innerHTML = "";
+
+  notes.forEach(note => {
+    const div = document.createElement("div");
+    div.className = "note-item";
+    div.innerHTML = `
+      <div class="note-info">
+        <strong>${note.subject}</strong> - ${note.name}
+      </div>
+      <div class="note-actions">
+        <a href="${note.url}" target="_blank"><button>Open</button></a>
+        <button onclick="deleteNote(${note.id})">Delete</button>
+      </div>
+    `;
+    notesList.appendChild(div);
+  });
+}
+
+// Delete note
+function deleteNote(id) {
+  notes = notes.filter(note => note.id !== id);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  renderNotes();
+}
+
+// Initial load
+renderNotes();
+</script>
+
+</body>
+</html>
