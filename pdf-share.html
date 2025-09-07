@@ -1,45 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Quick PDF Share (Transfer.sh)</title>
-</head>
-<body>
-  <h2>📂 Quick PDF Share (no DB, auto-expiry)</h2>
+<!-- Minimal UI -->
+<input type="file" id="fileInput" accept="application/pdf">
+<button id="uploadBtn">Upload & Get Link</button>
+<div id="status"></div>
+<div id="result"></div>
 
-  <input type="file" id="fileInput" accept="application/pdf"><br><br>
-  <button onclick="uploadFile()">Upload & Get Link</button>
+<script>
+const WORKER_URL = "https://pdf-proxy.suryasinghsn44.workers.dev/"; // <- REPLACE with your Worker URL
 
-  <p id="output"></p>
+document.getElementById("uploadBtn").addEventListener("click", async () => {
+  const f = document.getElementById("fileInput").files[0];
+  if (!f) { alert("Select a PDF"); return; }
 
-  <script>
-    async function uploadFile() {
-      const fileInput = document.getElementById("fileInput");
-      if (!fileInput.files.length) {
-        alert("Please select a PDF first.");
-        return;
-      }
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+  status.textContent = "Uploading...";
+  result.textContent = "";
 
-      const file = fileInput.files[0];
-      const formData = new FormData();
-      formData.append("file", file);
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": f.type || "application/pdf",
+        "x-filename": f.name
+      },
+      body: f // send raw Blob as request body
+    });
 
-      try {
-        const res = await fetch("https://transfer.sh/" + file.name, {
-          method: "POST",
-          body: file
-        });
+    const text = await res.text();
 
-        if (!res.ok) throw new Error("Upload failed");
+    if (!res.ok) throw new Error(text || `Status ${res.status}`);
 
-        const link = await res.text();
-        document.getElementById("output").innerHTML =
-          `✅ File uploaded! Share this link:<br>
-           <a href="${link}" target="_blank">${link}</a>`;
-      } catch (err) {
-        document.getElementById("output").innerText = "❌ Error: " + err.message;
-      }
-    }
-  </script>
-</body>
-</html>
+    // transfer.sh returns a plain URL string (e.g. https://transfer.sh/abcd/filename.pdf)
+    const link = text.trim();
+    status.textContent = "Uploaded!";
+    result.innerHTML = `
+      <div>Share link (expires automatically):</div>
+      <a href="${link}" target="_blank">${link}</a>
+      <div style="margin-top:8px">
+        <button id="copyBtn">Copy link</button>
+      </div>
+      <div style="margin-top:8px"><img src="https://chart.googleapis.com/chart?cht=qr&chs=240x240&chl=${encodeURIComponent(link)}" alt="QR"></div>
+    `;
+    document.getElementById("copyBtn").onclick = async () => {
+      await navigator.clipboard.writeText(link);
+      document.getElementById("copyBtn").textContent = "Copied!";
+      setTimeout(()=>document.getElementById("copyBtn").textContent = "Copy link", 1500);
+    };
+
+  } catch (err) {
+    status.textContent = "Error: " + (err.message || err);
+  }
+});
+</script>
