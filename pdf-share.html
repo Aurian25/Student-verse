@@ -1,138 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Quick PDF Share (file.io) — Temporary Links</title>
-  <style>
-    body{font-family:Inter,system-ui,Arial;margin:0;padding:24px;background:#0f172a;color:#eef2ff}
-    .card{max-width:820px;margin:20px auto;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-    h1{margin:0 0 10px;font-size:20px}
-    label{display:block;margin-top:12px;font-size:13px;color:#cbd5e1}
-    .row{display:flex;gap:12px;align-items:center;margin-top:10px}
-    input[type=file]{background:#0b1220;padding:10px;border-radius:8px;color:#e6eef8}
-    select, input[type=text]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
-    .btn-primary{background:#10b981;color:white}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef8}
-    .result{margin-top:16px;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;display:flex;gap:12px;align-items:center}
-    .linkbox{flex:1;word-break:break-all}
-    .qr {width:120px;height:120px;border-radius:8px;background:white;padding:6px}
-    .muted{color:#94a3b8;font-size:13px}
-    .small{font-size:13px;color:#e2e8f0}
-    .copybtn{background:#2563eb;color:white;padding:8px 10px;border-radius:8px;border:none;cursor:pointer}
-  </style>
+  <meta charset="UTF-8">
+  <title>Quick PDF Share</title>
 </head>
 <body>
-  <div class="card">
-    <h1>Quick PDF Share (temporary link)</h1>
-    <p class="muted">Upload a PDF, get a short auto-expiring link (no DB, no bucket). Works with file.io.</p>
+  <h2>📂 Quick PDF Share (temporary link)</h2>
 
-    <label>Select file (PDF)</label>
-    <input id="fileInput" type="file" accept="application/pdf">
+  <input type="file" id="fileInput" accept="application/pdf"><br><br>
+  <button onclick="uploadFile()">Upload & Get Link</button>
 
-    <label>Expiry (file.io supports days/weeks/months)</label>
-    <div class="row">
-      <select id="expiry">
-        <option value="1d">1 day</option>
-        <option value="7d">7 days</option>
-        <option value="1w">1 week</option>
-        <option value="1M">1 month</option>
-        <option value="14d">14 days</option>
-      </select>
+  <p id="output"></p>
 
-      <button id="uploadBtn" class="btn-primary">Upload & Get Link</button>
-      <button id="clearBtn" class="btn-ghost">Clear</button>
-    </div>
-
-    <div id="status" class="small" style="margin-top:10px"></div>
-
-    <div id="resultArea" style="display:none" class="result">
-      <div class="linkbox">
-        <div><strong>Share link</strong></div>
-        <div id="shareLink" style="margin-top:6px;color:#93c5fd"></div>
-        <div class="small" id="expiryText" style="margin-top:8px"></div>
-      </div>
-      <div style="text-align:center">
-        <img id="qrImg" class="qr" alt="QR code"/>
-        <div style="margin-top:8px">
-          <button id="copyBtn" class="copybtn">Copy link</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<script>
-  // --- small helpers ---
-  const el = id => document.getElementById(id);
-  el('uploadBtn').addEventListener('click', handleUpload);
-  el('clearBtn').addEventListener('click', ()=> {
-    el('fileInput').value = '';
-    el('status').textContent = '';
-    el('resultArea').style.display = 'none';
-  });
-
-  async function handleUpload(){
-    const file = el('fileInput').files[0];
-    if(!file) { alert('Pick a PDF first'); return; }
-    if(file.size > 200*1024*1024){ // 200MB guard (adjust)
-      if(!confirm('File >200MB. Proceed?')) return;
-    }
-    const expiryVal = el('expiry').value; // e.g. "1d" or "1w" etc.
-
-    el('status').textContent = 'Uploading…';
-    el('uploadBtn').disabled = true;
-
-    try {
-      // create FormData and POST to file.io
-      const fd = new FormData();
-      fd.append('file', file);
-
-      // file.io accepts expires param in query string, e.g. ?expires=1w or 1d.
-      const uploadUrl = 'https://file.io/?expires=' + encodeURIComponent(expiryVal);
-
-      const res = await fetch(uploadUrl, { method: 'POST', body: fd });
-      if(!res.ok) throw new Error('Upload failed: ' + res.status);
-
-      const json = await res.json();
-      // file.io returns something like { success:true, key:"abc", link:"https://file.io/abc", expiry: "7 days" }
-      if(!json || !json.success){
-        throw new Error((json && json.message) ? json.message : 'Upload failed (no success flag)');
+  <script>
+    async function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      if (!fileInput.files.length) {
+        alert("Please select a PDF first.");
+        return;
       }
 
-      const shareLink = json.link || json.download || json?.data?.link || null;
-      const expiryTxt = json.expiry || 'expires soon';
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
 
-      if(!shareLink){
-        // some variants return 'key' or redirect. Build link if needed:
-        if(json.key) shareLink = 'https://file.io/' + json.key;
-      }
+      try {
+        const res = await fetch("https://file.io/?expires=1d", {
+          method: "POST",
+          body: formData
+        });
 
-      el('status').textContent = '';
-      el('shareLink').textContent = shareLink;
-      el('expiryText').textContent = 'Expiry: ' + expiryTxt;
-      el('qrImg').src = 'https://chart.googleapis.com/chart?cht=qr&chs=240x240&chl=' + encodeURIComponent(shareLink);
-      el('resultArea').style.display = 'flex';
+        if (!res.ok) throw new Error("Upload failed");
+        const json = await res.json();
 
-      // copy button
-      el('copyBtn').onclick = async () => {
-        try {
-          await navigator.clipboard.writeText(shareLink);
-          el('copyBtn').textContent = 'Copied!';
-          setTimeout(()=>el('copyBtn').textContent='Copy link', 1500);
-        } catch(e) {
-          alert('Copy failed, open link and copy manually');
+        if (json.success) {
+          document.getElementById("output").innerHTML =
+            `✅ File uploaded! Share this link (expires in 1 day):<br>
+             <a href="${json.link}" target="_blank">${json.link}</a>`;
+        } else {
+          document.getElementById("output").innerText =
+            "❌ Error: " + JSON.stringify(json);
         }
-      };
-
-    } catch (err){
-      console.error(err);
-      el('status').textContent = 'Error: ' + (err.message || err);
-      el('resultArea').style.display = 'none';
-    } finally {
-      el('uploadBtn').disabled = false;
+      } catch (err) {
+        document.getElementById("output").innerText = "❌ Error: " + err.message;
+      }
     }
-  }
-</script>
+  </script>
 </body>
 </html>
