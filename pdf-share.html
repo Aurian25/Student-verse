@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quick PDF Share</title>
+  <title>Quick PDF Share (Transfer.sh)</title>
 </head>
 <body>
-  <h2>📂 Quick PDF Share (temporary link)</h2>
+  <h2>📂 Quick PDF Share (no DB, auto-expiry)</h2>
 
   <input type="file" id="fileInput" accept="application/pdf"><br><br>
   <button onclick="uploadFile()">Upload & Get Link</button>
@@ -25,22 +25,17 @@
       formData.append("file", file);
 
       try {
-        const res = await fetch("https://file.io/?expires=1d", {
+        const res = await fetch("https://transfer.sh/" + file.name, {
           method: "POST",
-          body: formData
+          body: file
         });
 
         if (!res.ok) throw new Error("Upload failed");
-        const json = await res.json();
 
-        if (json.success) {
-          document.getElementById("output").innerHTML =
-            `✅ File uploaded! Share this link (expires in 1 day):<br>
-             <a href="${json.link}" target="_blank">${json.link}</a>`;
-        } else {
-          document.getElementById("output").innerText =
-            "❌ Error: " + JSON.stringify(json);
-        }
+        const link = await res.text();
+        document.getElementById("output").innerHTML =
+          `✅ File uploaded! Share this link:<br>
+           <a href="${link}" target="_blank">${link}</a>`;
       } catch (err) {
         document.getElementById("output").innerText = "❌ Error: " + err.message;
       }
