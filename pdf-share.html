@@ -1,11 +1,5 @@
-<!-- Minimal UI -->
-<input type="file" id="fileInput" accept="application/pdf">
-<button id="uploadBtn">Upload & Get Link</button>
-<div id="status"></div>
-<div id="result"></div>
-
 <script>
-const WORKER_URL = "https://pdf-proxy.suryasinghsn44.workers.dev/"; // <- REPLACE with your Worker URL
+const WORKER_URL = "https://pdf-proxy.suryasinghsn44.workers.dev/"; // your Worker
 
 document.getElementById("uploadBtn").addEventListener("click", async () => {
   const f = document.getElementById("fileInput").files[0];
@@ -19,35 +13,27 @@ document.getElementById("uploadBtn").addEventListener("click", async () => {
   try {
     const res = await fetch(WORKER_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": f.type || "application/pdf",
-        "x-filename": f.name
-      },
-      body: f // send raw Blob as request body
+      headers: { "x-filename": f.name },
+      body: f
     });
 
-    const json = await res.json();
+    const text = await res.text();   // 👈 don’t parse JSON
+    console.log("Raw response:", text);
 
-    if (!res.ok || !json.link) throw new Error(JSON.stringify(json) || `Status ${res.status}`);
-    const link = json.link;
-
-    status.textContent = "Uploaded!";
-    result.innerHTML = `
-      <div>Share link (expires automatically):</div>
-      <a href="${link}" target="_blank">${link}</a>
-      <div style="margin-top:8px">
-        <button id="copyBtn">Copy link</button>
-      </div>
-      <div style="margin-top:8px"><img src="https://chart.googleapis.com/chart?cht=qr&chs=240x240&chl=${encodeURIComponent(link)}" alt="QR"></div>
-    `;
-    document.getElementById("copyBtn").onclick = async () => {
-      await navigator.clipboard.writeText(link);
-      document.getElementById("copyBtn").textContent = "Copied!";
-      setTimeout(()=>document.getElementById("copyBtn").textContent = "Copy link", 1500);
-    };
+    // If the response looks like a link, show it directly
+    if (text.includes("http")) {
+      status.textContent = "Uploaded!";
+      result.innerHTML = `
+        <div>Share link (expires automatically):</div>
+        <a href="${text.trim()}" target="_blank">${text.trim()}</a>
+      `;
+    } else {
+      status.textContent = "⚠️ Got unexpected response";
+      result.innerHTML = `<pre>${text}</pre>`;
+    }
 
   } catch (err) {
-    status.textContent = "Error: " + (err.message || err);
+    status.textContent = "❌ Error: " + err.message;
   }
 });
 </script>
