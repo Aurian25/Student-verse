@@ -26,12 +26,11 @@ document.getElementById("uploadBtn").addEventListener("click", async () => {
       body: f // send raw Blob as request body
     });
 
-    const text = await res.text();
+    const json = await res.json();
 
-    if (!res.ok) throw new Error(text || `Status ${res.status}`);
+    if (!res.ok || !json.link) throw new Error(JSON.stringify(json) || `Status ${res.status}`);
+    const link = json.link;
 
-    // transfer.sh returns a plain URL string (e.g. https://transfer.sh/abcd/filename.pdf)
-    const link = text.trim();
     status.textContent = "Uploaded!";
     result.innerHTML = `
       <div>Share link (expires automatically):</div>
