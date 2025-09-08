@@ -1,39 +1,104 @@
-<script>
-const WORKER_URL = "https://pdf-proxy.suryasinghsn44.workers.dev/"; // your Worker
-
-document.getElementById("uploadBtn").addEventListener("click", async () => {
-  const f = document.getElementById("fileInput").files[0];
-  if (!f) { alert("Select a PDF"); return; }
-
-  const status = document.getElementById("status");
-  const result = document.getElementById("result");
-  status.textContent = "Uploading...";
-  result.textContent = "";
-
-  try {
-    const res = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "x-filename": f.name },
-      body: f
-    });
-
-    const text = await res.text();   // 👈 don’t parse JSON
-    console.log("Raw response:", text);
-
-    // If the response looks like a link, show it directly
-    if (text.includes("http")) {
-      status.textContent = "Uploaded!";
-      result.innerHTML = `
-        <div>Share link (expires automatically):</div>
-        <a href="${text.trim()}" target="_blank">${text.trim()}</a>
-      `;
-    } else {
-      status.textContent = "⚠️ Got unexpected response";
-      result.innerHTML = `<pre>${text}</pre>`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick PDF Share</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
     }
+    h1 {
+      color: #2563eb;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+    }
+    input[type="file"] {
+      margin: 12px 0;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #result {
+      margin-top: 15px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>📂 Quick PDF Share</h1>
+  <div class="card">
+    <input type="file" id="fileInput" accept="application/pdf">
+    <br>
+    <button id="uploadBtn">Upload & Get Link</button>
+    <div id="status"></div>
+    <div id="result"></div>
+  </div>
 
-  } catch (err) {
-    status.textContent = "❌ Error: " + err.message;
-  }
-});
-</script>
+  <script>
+    // Replace with your actual Worker URL
+    const WORKER_URL = "https://pdf-proxy.suryasinghsn44.workers.dev/";
+
+    document.getElementById("uploadBtn").addEventListener("click", async () => {
+      const f = document.getElementById("fileInput").files[0];
+      if (!f) { alert("Select a PDF first"); return; }
+
+      const status = document.getElementById("status");
+      const result = document.getElementById("result");
+      status.textContent = "⏳ Uploading...";
+      result.textContent = "";
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "x-filename": f.name },
+          body: f
+        });
+
+        const text = await res.text();   // don't assume JSON
+        console.log("Raw response:", text);
+
+        if (text.includes("http")) {
+          status.textContent = "✅ Uploaded!";
+          result.innerHTML = `
+            <div>Share link (expires automatically):</div>
+            <a href="${text.trim()}" target="_blank">${text.trim()}</a>
+          `;
+        } else {
+          status.textContent = "⚠️ Got unexpected response";
+          result.innerHTML = `<pre>${text}</pre>`;
+        }
+
+      } catch (err) {
+        status.textContent = "❌ Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
